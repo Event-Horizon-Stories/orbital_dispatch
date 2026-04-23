@@ -77,8 +77,8 @@ The lesson creates:
 - [`lib/orbital_dispatch/repo.ex`](./lib/orbital_dispatch/repo.ex) and [`lib/orbital_dispatch/oban.ex`](./lib/orbital_dispatch/oban.ex) for the runtime surface
 - [`priv/repo/migrations/20260423120000_add_oban_jobs.exs`](./priv/repo/migrations/20260423120000_add_oban_jobs.exs) for the durable jobs table
 
-The runtime also bootstraps local storage before supervision starts, so the
-chapter can be run with `mix setup` and inspected immediately.
+Local storage is prepared explicitly with `mix setup`, so the lesson keeps
+schema changes out of normal runtime startup.
 
 ## The Code
 

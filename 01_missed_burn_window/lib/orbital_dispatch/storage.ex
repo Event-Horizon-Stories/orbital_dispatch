@@ -6,12 +6,14 @@ defmodule OrbitalDispatch.Storage do
   def ensure_ready! do
     ensure_storage!()
 
-    {:ok, pid} = Repo.start_link(pool_size: 1)
+    {pid, started_here?} = ensure_repo_started!()
 
     try do
       Ecto.Migrator.run(Repo, migrations_path(), :up, all: true)
     after
-      GenServer.stop(pid)
+      if started_here? do
+        GenServer.stop(pid)
+      end
     end
   end
 
@@ -25,5 +27,12 @@ defmodule OrbitalDispatch.Storage do
 
   defp migrations_path do
     Application.app_dir(:orbital_dispatch, "priv/repo/migrations")
+  end
+
+  defp ensure_repo_started! do
+    case Repo.start_link(pool_size: 1) do
+      {:ok, pid} -> {pid, true}
+      {:error, {:already_started, pid}} -> {pid, false}
+    end
   end
 end

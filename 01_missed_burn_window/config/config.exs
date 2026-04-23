@@ -5,7 +5,6 @@ config :orbital_dispatch,
 
 config :orbital_dispatch, OrbitalDispatch.Repo,
   database: Path.expand("../orbital_dispatch_dev.db", __DIR__),
-  stacktrace: true,
   pool_size: 5
 
 config :orbital_dispatch, OrbitalDispatch.Oban,
