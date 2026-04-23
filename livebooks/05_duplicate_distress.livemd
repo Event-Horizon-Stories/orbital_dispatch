@@ -1,0 +1,50 @@
+# Duplicate Distress
+
+Two relay paths can describe one emergency. The queue should answer with one
+escort obligation, not two.
+
+## Enqueue The First Report
+
+```elixir
+alias OrbitalDispatch
+
+{:ok, first_job} =
+  OrbitalDispatch.dispatch_distress_escort(%{
+    incident_id: "INC-7781",
+    hull_id: "SV-91 Orison",
+    distress_type: "coolant loop rupture",
+    last_known_orbit: "outer transfer spine",
+    distress_reported_at: ~U[2041-05-11 04:18:00Z],
+    reported_via: "relay chain cobalt"
+  })
+
+{first_job.id, first_job.conflict?}
+```
+
+## Enqueue The Duplicate Report
+
+```elixir
+{:ok, second_job} =
+  OrbitalDispatch.dispatch_distress_escort(%{
+    incident_id: "INC-7781",
+    hull_id: "SV-91 Orison",
+    distress_type: "coolant loop rupture",
+    last_known_orbit: "outer transfer spine",
+    distress_reported_at: ~U[2041-05-11 04:18:00Z],
+    reported_via: "relay chain amber"
+  })
+
+{second_job.id, second_job.conflict?}
+```
+
+The second insert should point at the same job id and mark the insert as a
+conflict instead of creating a second escort obligation.
+
+## Inspect The Queue
+
+```elixir
+OrbitalDispatch.active_distress_escorts()
+```
+
+There should be exactly one escort job for the incident, still carrying the
+first inserted report details.

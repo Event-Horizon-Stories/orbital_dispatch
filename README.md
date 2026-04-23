@@ -20,6 +20,7 @@ Livebook companions live in [`livebooks/`](./livebooks/README.md).
 - [`livebooks/02_retry_in_radiation.livemd`](./livebooks/02_retry_in_radiation.livemd)
 - [`livebooks/03_scheduled_transfer.livemd`](./livebooks/03_scheduled_transfer.livemd)
 - [`livebooks/04_patrol_orbit.livemd`](./livebooks/04_patrol_orbit.livemd)
+- [`livebooks/05_duplicate_distress.livemd`](./livebooks/05_duplicate_distress.livemd)
 
 ## The Journey
 
@@ -38,7 +39,7 @@ office will keep hardening under pressure:
 4. [`04_patrol_orbit`](./04_patrol_orbit/README.md)
    Recurring inspection work becomes durable instead of relying on operator
    memory.
-5. [`05_duplicate_distress`](./PLAN.md#05_duplicate_distress)
+5. [`05_duplicate_distress`](./05_duplicate_distress/README.md)
    The same failure reaches dispatch twice, and duplicate rescue becomes its
    own operational hazard.
 6. [`06_priority_corridor`](./PLAN.md#06_priority_corridor)
