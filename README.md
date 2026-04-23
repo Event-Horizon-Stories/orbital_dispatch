@@ -21,6 +21,7 @@ Livebook companions live in [`livebooks/`](./livebooks/README.md).
 - [`livebooks/03_scheduled_transfer.livemd`](./livebooks/03_scheduled_transfer.livemd)
 - [`livebooks/04_patrol_orbit.livemd`](./livebooks/04_patrol_orbit.livemd)
 - [`livebooks/05_duplicate_distress.livemd`](./livebooks/05_duplicate_distress.livemd)
+- [`livebooks/06_priority_corridor.livemd`](./livebooks/06_priority_corridor.livemd)
 
 ## The Journey
 
@@ -42,7 +43,7 @@ office will keep hardening under pressure:
 5. [`05_duplicate_distress`](./05_duplicate_distress/README.md)
    The same failure reaches dispatch twice, and duplicate rescue becomes its
    own operational hazard.
-6. [`06_priority_corridor`](./PLAN.md#06_priority_corridor)
+6. [`06_priority_corridor`](./06_priority_corridor/README.md)
    Routine upkeep collides with life-support failure, forcing the queue to show
    whether it understands urgency.
 7. [`07_verification_pass`](./PLAN.md#07_verification_pass)

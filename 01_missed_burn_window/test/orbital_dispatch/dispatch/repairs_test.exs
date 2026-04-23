@@ -6,8 +6,6 @@ defmodule OrbitalDispatch.Dispatch.RepairsTest do
   alias Oban.Job
 
   setup do
-    Application.ensure_all_started(:orbital_dispatch)
-
     if is_nil(Process.whereis(OrbitalDispatch.Supervisor)) do
       assert {:ok, _supervisor} = OrbitalDispatch.Application.start(:normal, [])
     end

@@ -6,7 +6,6 @@ defmodule OrbitalDispatch.Dispatch.RepairsTest do
   alias Oban.Job
 
   setup do
-    Application.ensure_all_started(:orbital_dispatch)
     Repo.delete_all(Job)
 
     :ok
