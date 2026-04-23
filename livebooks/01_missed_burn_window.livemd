@@ -1,0 +1,31 @@
+# Missed Burn Window
+
+Port Meridian learns the smallest durable habit first: when a damaged relay
+cannot be answered inline, the office inserts an obligation that will still be
+there after the runtime goes dark and wakes again.
+
+## Report The Fracture
+
+```elixir
+alias OrbitalDispatch
+
+{:ok, job} =
+  OrbitalDispatch.report_relay_fracture(%{
+    relay_id: "L5-88",
+    orbit: "lagrange transfer plane",
+    fracture: "starboard gimbal hairline split",
+    detected_at: "2041-03-16T08:47:00Z",
+    burn_window_opens_at: ~U[2041-03-16 09:12:00Z]
+  })
+
+job.id
+```
+
+## Inspect Dispatch Memory
+
+```elixir
+OrbitalDispatch.pending_repairs()
+```
+
+The queue is paused in this lesson. That leaves the repair obligation visible
+in storage, which is the first thing Port Meridian had to learn to protect.
