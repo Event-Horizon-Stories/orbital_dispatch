@@ -17,6 +17,7 @@ that keeps promises alive.
 Livebook companions live in [`livebooks/`](./livebooks/README.md).
 
 - [`livebooks/01_missed_burn_window.livemd`](./livebooks/01_missed_burn_window.livemd)
+- [`livebooks/02_retry_in_radiation.livemd`](./livebooks/02_retry_in_radiation.livemd)
 
 ## The Journey
 
@@ -26,7 +27,7 @@ office will keep hardening under pressure:
 1. [`01_missed_burn_window`](./01_missed_burn_window/README.md)
    A repair obligation exists only in memory and disappears before the next
    orbital opportunity arrives.
-2. [`02_retry_in_radiation`](./PLAN.md#02_retry_in_radiation)
+2. [`02_retry_in_radiation`](./02_retry_in_radiation/README.md)
    A launch fails in a charged-particle storm and must retry without an
    operator recreating the work by hand.
 3. [`03_scheduled_transfer`](./PLAN.md#03_scheduled_transfer)
