@@ -1,0 +1,34 @@
+# Patrol Orbit
+
+The outer transfer routes stop being somebody's memory and become durable work
+the runtime creates for itself.
+
+## Evaluate The Patrol Schedule
+
+```elixir
+alias OrbitalDispatch
+
+cron = Oban.Registry.whereis(OrbitalDispatch.Oban, {:plugin, Oban.Plugins.Cron})
+
+send(cron, :evaluate)
+Process.sleep(50)
+```
+
+## Inspect Patrol Work
+
+```elixir
+OrbitalDispatch.patrol_runs()
+```
+
+The patrol job should show up on the `patrols` queue with cron metadata for the
+original schedule expression.
+
+## Complete The Patrol
+
+```elixir
+OrbitalDispatch.Oban.drain_queue(queue: :patrols)
+OrbitalDispatch.patrol_runs()
+```
+
+Once the queue drains, the patrol remains visible as completed work instead of
+disappearing into a handoff note.

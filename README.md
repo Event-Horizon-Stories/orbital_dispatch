@@ -19,6 +19,7 @@ Livebook companions live in [`livebooks/`](./livebooks/README.md).
 - [`livebooks/01_missed_burn_window.livemd`](./livebooks/01_missed_burn_window.livemd)
 - [`livebooks/02_retry_in_radiation.livemd`](./livebooks/02_retry_in_radiation.livemd)
 - [`livebooks/03_scheduled_transfer.livemd`](./livebooks/03_scheduled_transfer.livemd)
+- [`livebooks/04_patrol_orbit.livemd`](./livebooks/04_patrol_orbit.livemd)
 
 ## The Journey
 
@@ -34,7 +35,7 @@ office will keep hardening under pressure:
 3. [`03_scheduled_transfer`](./03_scheduled_transfer/README.md)
    A replacement part is ready now, but the receiving hull cannot accept
    approach until a later transfer window.
-4. [`04_patrol_orbit`](./PLAN.md#04_patrol_orbit)
+4. [`04_patrol_orbit`](./04_patrol_orbit/README.md)
    Recurring inspection work becomes durable instead of relying on operator
    memory.
 5. [`05_duplicate_distress`](./PLAN.md#05_duplicate_distress)
