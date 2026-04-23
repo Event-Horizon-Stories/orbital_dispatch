@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Dispatch.Launches do
-  @moduledoc false
+  @moduledoc """
+  Owns cargo-launch job creation and retry inspection.
+
+  Chapter 2 introduces the idea that work may fail once and still be worth
+  keeping. This module is where launch input becomes a retryable Oban job.
+  """
 
   alias OrbitalDispatch.Dispatch.{JobView, Normalization}
   alias OrbitalDispatch.Workers.CargoLaunch
@@ -33,6 +38,7 @@ defmodule OrbitalDispatch.Dispatch.Launches do
                  clears_on_attempt,
                  :guidance_noise_clears_on_attempt
                ) do
+          # Persist only simple JSON-friendly values in the job args.
           {:ok,
            %{
              drone_id: normalized.drone_id,

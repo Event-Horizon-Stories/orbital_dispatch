@@ -1,5 +1,7 @@
 defmodule OrbitalDispatch.Dispatch.Repairs do
-  @moduledoc false
+  @moduledoc """
+  Keeps the original relay-repair behavior available in chapter 3.
+  """
 
   alias OrbitalDispatch.Dispatch.{JobView, Normalization}
   alias OrbitalDispatch.Workers.RelayRepair
@@ -28,6 +30,7 @@ defmodule OrbitalDispatch.Dispatch.Repairs do
         with {:ok, detected_at} <- Normalization.normalize_timestamp(normalized.detected_at),
              {:ok, burn_window_opens_at} <-
                Normalization.normalize_timestamp(normalized.burn_window_opens_at) do
+          # Job args must be JSON-friendly, so timestamps are stored as strings.
           {:ok,
            %{
              relay_id: normalized.relay_id,

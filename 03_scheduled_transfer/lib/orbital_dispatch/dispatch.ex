@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Dispatch do
-  @moduledoc false
+  @moduledoc """
+  The main dispatch boundary for chapter 3.
+
+  Public API calls still land here first, then flow into smaller modules for
+  repairs, launches, and scheduled transfers.
+  """
 
   alias OrbitalDispatch.Dispatch.{Launches, Repairs, Transfers}
 

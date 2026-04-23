@@ -1,11 +1,14 @@
 defmodule OrbitalDispatch.Storage do
-  @moduledoc false
+  @moduledoc """
+  Explicitly prepares local SQLite storage and migrations for the lesson.
+  """
 
   alias OrbitalDispatch.Repo
 
   def ensure_ready! do
     ensure_storage!()
 
+    # Migrations need a live repo process. Start one temporarily if needed.
     {pid, started_here?} = ensure_repo_started!()
 
     try do

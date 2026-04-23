@@ -1,5 +1,11 @@
 defmodule OrbitalDispatch.Workers.RelayRepair do
-  @moduledoc false
+  @moduledoc """
+  Performs a relay-repair obligation.
+
+  The worker stays intentionally simple in the early lessons. The important
+  thing in chapter 1 is that the job exists durably, not that repair execution
+  has complicated branching yet.
+  """
 
   use Oban.Worker, queue: :repairs, max_attempts: 1
 

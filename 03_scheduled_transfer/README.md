@@ -162,4 +162,4 @@ office has not yet promoted recurring obligation into durable runtime behavior.
 
 The next lesson stops trusting operator memory for routine patrol work and
 teaches the office to carry recurring obligations for itself:
-[`04_patrol_orbit`](../PLAN.md#04_patrol_orbit).
+[`04_patrol_orbit`](../04_patrol_orbit/README.md).

@@ -1,5 +1,11 @@
 defmodule OrbitalDispatch.Dispatch.Repairs do
-  @moduledoc false
+  @moduledoc """
+  Owns relay-repair job creation and inspection.
+
+  Chapter 1 only has one kind of work, but it still lives in its own module so
+  later lessons can add launches, transfers, and patrols without reshaping the
+  whole app.
+  """
 
   alias OrbitalDispatch.Dispatch.{JobView, Normalization}
   alias OrbitalDispatch.Workers.RelayRepair
@@ -28,6 +34,7 @@ defmodule OrbitalDispatch.Dispatch.Repairs do
         with {:ok, detected_at} <- Normalization.normalize_timestamp(normalized.detected_at),
              {:ok, burn_window_opens_at} <-
                Normalization.normalize_timestamp(normalized.burn_window_opens_at) do
+          # Persist timestamps as strings because Oban job args are JSON-backed.
           {:ok,
            %{
              relay_id: normalized.relay_id,

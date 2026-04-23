@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Dispatch.JobView do
-  @moduledoc false
+  @moduledoc """
+  Turns persisted jobs into chapter-friendly inspection maps.
+
+  Each new queue type reuses the same pattern: query matching jobs, then project
+  each row into the shape a learner wants to inspect.
+  """
 
   import Ecto.Query
 
@@ -7,6 +12,7 @@ defmodule OrbitalDispatch.Dispatch.JobView do
   alias OrbitalDispatch.Repo
 
   def list(worker, states, snapshotter) do
+    # The query shape is shared across queues; the snapshotter decides which fields matter.
     Job
     |> where([job], job.worker == ^Oban.Worker.to_string(worker))
     |> where([job], job.state in ^states)
@@ -68,6 +74,7 @@ defmodule OrbitalDispatch.Dispatch.JobView do
   def parse_timestamp(nil), do: nil
 
   def parse_timestamp(value) do
+    # Persisted job args are string-based, so this converts ISO8601 text back to DateTime.
     case DateTime.from_iso8601(value) do
       {:ok, datetime, _offset} -> datetime
       {:error, _reason} -> nil

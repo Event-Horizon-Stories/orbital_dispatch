@@ -1,5 +1,7 @@
 defmodule OrbitalDispatch.Dispatch.Normalization do
-  @moduledoc false
+  @moduledoc """
+  Shared helpers for shaping interactive input into queue-ready values.
+  """
 
   def required_values(attrs, fields) do
     Enum.reduce(fields, %{}, fn field, acc ->
@@ -14,6 +16,7 @@ defmodule OrbitalDispatch.Dispatch.Normalization do
   end
 
   def fetch_value(attrs, field) do
+    # Let examples stay flexible by accepting either atom or string keys.
     Map.get(attrs, field) || Map.get(attrs, Atom.to_string(field))
   end
 

@@ -1,9 +1,12 @@
 defmodule OrbitalDispatch.Workers.CargoLaunch do
-  @moduledoc false
+  @moduledoc """
+  Performs a cargo launch with retry behavior.
+  """
 
   use Oban.Worker, queue: :launches, max_attempts: 3
 
   @impl Oban.Worker
+  # The lesson uses a short linear backoff so retry timing is easy to inspect.
   def backoff(%Oban.Job{attempt: attempt}), do: attempt * 30
 
   @impl Oban.Worker

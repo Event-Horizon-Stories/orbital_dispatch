@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Application do
-  @moduledoc false
+  @moduledoc """
+  Starts the lesson application's supervision tree.
+
+  The shape is still intentionally small: a repo plus one Oban instance. The
+  runtime stays stable while the dispatch domain grows from one queue to many.
+  """
 
   use Application
 

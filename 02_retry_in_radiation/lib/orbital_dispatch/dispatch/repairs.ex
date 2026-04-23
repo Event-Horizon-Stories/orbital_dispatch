@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Dispatch.Repairs do
-  @moduledoc false
+  @moduledoc """
+  Keeps the chapter 1 repair path intact inside the larger chapter 2 app.
+
+  This is an important cumulative lesson detail: adding retries for launches
+  does not rewrite or relocate the existing repair logic.
+  """
 
   alias OrbitalDispatch.Dispatch.{JobView, Normalization}
   alias OrbitalDispatch.Workers.RelayRepair
@@ -28,6 +33,7 @@ defmodule OrbitalDispatch.Dispatch.Repairs do
         with {:ok, detected_at} <- Normalization.normalize_timestamp(normalized.detected_at),
              {:ok, burn_window_opens_at} <-
                Normalization.normalize_timestamp(normalized.burn_window_opens_at) do
+          # Oban args are JSON, so store timestamps in a JSON-friendly format.
           {:ok,
            %{
              relay_id: normalized.relay_id,

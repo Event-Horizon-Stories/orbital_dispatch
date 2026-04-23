@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Workers.ReplacementTransfer do
-  @moduledoc false
+  @moduledoc """
+  Performs a replacement transfer once its docking window arrives.
+
+  The worker is deliberately simple because the chapter is teaching scheduling,
+  not transfer failure handling.
+  """
 
   use Oban.Worker, queue: :transfers, max_attempts: 1
 

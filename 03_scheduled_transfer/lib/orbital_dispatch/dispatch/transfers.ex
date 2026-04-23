@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Dispatch.Transfers do
-  @moduledoc false
+  @moduledoc """
+  Owns replacement-transfer work that should exist now but run later.
+
+  This is the chapter 3 addition: a job can be valid immediately while its
+  execution time belongs to a future docking window.
+  """
 
   alias OrbitalDispatch.Dispatch.{JobView, Normalization}
   alias OrbitalDispatch.Workers.ReplacementTransfer
@@ -36,6 +41,7 @@ defmodule OrbitalDispatch.Dispatch.Transfers do
               docking_window_opens_at: DateTime.to_iso8601(docking_window_opens_at),
               approach_corridor: approach_corridor
             }
+            # Optional fields are removed when absent so the stored args stay clean.
             |> Enum.reject(fn {_key, value} -> is_nil(value) end)
             |> Map.new()
 
