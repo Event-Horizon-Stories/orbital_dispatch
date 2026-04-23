@@ -1,0 +1,43 @@
+# Scheduled Transfer
+
+Port Meridian now knows three different truths about work: some obligations
+must survive restart, some failures deserve retry, and some jobs are correct
+only if they wait for a future window.
+
+## Schedule The Transfer
+
+```elixir
+alias OrbitalDispatch
+
+docking_window_opens_at = DateTime.add(DateTime.utc_now(), 600, :second)
+
+{:ok, job} =
+  OrbitalDispatch.schedule_replacement_transfer(%{
+    part_id: "RW-441",
+    source_bay: "meridian depot spindle",
+    destination_hull: "SV-22 Ilyr",
+    docking_window_opens_at: docking_window_opens_at,
+    approach_corridor: "plane-match corridor"
+  })
+
+job.id
+```
+
+## Inspect Future Work
+
+```elixir
+OrbitalDispatch.scheduled_transfers()
+```
+
+The transfer should be present immediately, but in `scheduled` state rather
+than `available`.
+
+## Open The Docking Window
+
+```elixir
+OrbitalDispatch.Oban.drain_queue(queue: :transfers, with_scheduled: docking_window_opens_at)
+OrbitalDispatch.scheduled_transfers()
+```
+
+Once the future window is included, the scheduled transfer runs and drops out
+of the pending transfer view.
