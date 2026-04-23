@@ -183,4 +183,4 @@ duplicate action under pressure.
 
 The next lesson makes dispatch tell the difference between reinforcement and
 duplication when the same alarm reaches the office more than once:
-[`05_duplicate_distress`](../PLAN.md#05_duplicate_distress).
+[`05_duplicate_distress`](../05_duplicate_distress/README.md).
