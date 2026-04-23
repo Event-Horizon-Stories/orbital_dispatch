@@ -6,10 +6,10 @@ Available now:
 
 - [`01_missed_burn_window.livemd`](./01_missed_burn_window.livemd)
 - [`02_retry_in_radiation.livemd`](./02_retry_in_radiation.livemd)
+- [`03_scheduled_transfer.livemd`](./03_scheduled_transfer.livemd)
 
 Planned next:
 
-- `03_scheduled_transfer.livemd`
 - `04_patrol_orbit.livemd`
 - `05_duplicate_distress.livemd`
 - `06_priority_corridor.livemd`

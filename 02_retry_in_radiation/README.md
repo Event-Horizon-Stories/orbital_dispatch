@@ -166,4 +166,4 @@ not scheduled.
 
 The next lesson teaches the office to hold known work until orbital geometry is
 right instead of discovering the delay only after a failed attempt:
-[`03_scheduled_transfer`](../PLAN.md#03_scheduled_transfer).
+[`03_scheduled_transfer`](../03_scheduled_transfer/README.md).
