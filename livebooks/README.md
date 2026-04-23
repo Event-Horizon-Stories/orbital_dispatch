@@ -2,9 +2,12 @@
 
 Livebook companions will follow the same cumulative arc as the lesson series.
 
-Planned companions:
+Available now:
 
-- `01_missed_burn_window.livemd`
+- [`01_missed_burn_window.livemd`](./01_missed_burn_window.livemd)
+
+Planned next:
+
 - `02_retry_in_radiation.livemd`
 - `03_scheduled_transfer.livemd`
 - `04_patrol_orbit.livemd`

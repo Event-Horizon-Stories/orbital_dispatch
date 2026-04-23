@@ -91,12 +91,14 @@ has not yet become an institution of its own.
 The repo is pinned with [`.tool-versions`](./.tool-versions) to match the same
 Elixir and Erlang baseline used elsewhere in the story line.
 
-The chapter arc and story plot live in [`PLAN.md`](./PLAN.md). Livebook
-companions are planned under [`livebooks/`](./livebooks/README.md).
+The provisional chapter arc still lives in [`PLAN.md`](./PLAN.md), but the
+series now starts in the code. Livebook companions sit under
+[`livebooks/`](./livebooks/README.md).
 
 ## Start Here
 
-Start with [`PLAN.md`](./PLAN.md).
+Start with [`01_missed_burn_window`](./01_missed_burn_window/README.md).
 
-It fixes the office, the recurring failures, and the chapter progression before
-the first lesson lands.
+That is the first real version of Port Meridian Dispatch: one relay fracture,
+one durable repair obligation, and one queue that keeps the work alive after a
+restart.
