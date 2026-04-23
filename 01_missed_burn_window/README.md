@@ -72,7 +72,10 @@ job and lets storage carry the memory.
 The lesson creates:
 
 - [`lib/orbital_dispatch.ex`](./lib/orbital_dispatch.ex) as the public entry point
-- [`lib/orbital_dispatch/dispatch.ex`](./lib/orbital_dispatch/dispatch.ex) for enqueueing and inspection
+- [`lib/orbital_dispatch/dispatch.ex`](./lib/orbital_dispatch/dispatch.ex) as the thin dispatch context entry point
+- [`lib/orbital_dispatch/dispatch/repairs.ex`](./lib/orbital_dispatch/dispatch/repairs.ex) for the relay-repair responsibility
+- [`lib/orbital_dispatch/dispatch/job_view.ex`](./lib/orbital_dispatch/dispatch/job_view.ex) for inspecting queued repair work
+- [`lib/orbital_dispatch/dispatch/normalization.ex`](./lib/orbital_dispatch/dispatch/normalization.ex) for shared argument shaping
 - [`lib/orbital_dispatch/workers/relay_repair.ex`](./lib/orbital_dispatch/workers/relay_repair.ex) for the first repair obligation
 - [`lib/orbital_dispatch/repo.ex`](./lib/orbital_dispatch/repo.ex) and [`lib/orbital_dispatch/oban.ex`](./lib/orbital_dispatch/oban.ex) for the runtime surface
 - [`priv/repo/migrations/20260423120000_add_oban_jobs.exs`](./priv/repo/migrations/20260423120000_add_oban_jobs.exs) for the durable jobs table
@@ -89,10 +92,12 @@ defdelegate pending_repairs(), to: Dispatch
 defdelegate report_relay_fracture(attrs), to: Dispatch
 ```
 
-Inside the dispatch module, the first lesson does two things only:
+Behind that small surface, the lesson already takes a shape the later chapters
+can keep:
 
-- normalize a relay failure report into stable job arguments
-- query visible repair obligations back out of `oban_jobs`
+- `Dispatch.Repairs` owns enqueueing and inspection for repair work
+- `Dispatch.Normalization` keeps timestamp and input shaping out of the context entry point
+- `Dispatch.JobView` turns raw `oban_jobs` rows into reader-facing snapshots
 
 The worker itself is intentionally plain:
 
@@ -170,4 +175,4 @@ recover cleanly when execution itself fails.
 
 The next lesson lets the first launch attempt fail and makes dispatch prove it
 can try again without a human rebuilding the work by hand:
-[`02_retry_in_radiation`](../PLAN.md#02_retry_in_radiation).
+[`02_retry_in_radiation`](../02_retry_in_radiation/README.md).

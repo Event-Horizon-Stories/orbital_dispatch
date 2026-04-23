@@ -1,0 +1,42 @@
+# Retry In Radiation
+
+Port Meridian already knows how to keep work alive. Now it has to keep trying
+when the first interval is bad and the next one may be better.
+
+## Enqueue A Launch Attempt
+
+```elixir
+alias OrbitalDispatch
+
+{:ok, job} =
+  OrbitalDispatch.dispatch_cargo_launch(%{
+    drone_id: "CN-7",
+    cargo_id: "RW-441",
+    corridor: "north transfer spine",
+    launch_window_opens_at: ~U[2041-04-03 12:10:00Z],
+    guidance_noise_clears_on_attempt: 2
+  })
+
+job.id
+```
+
+## Fail The First Interval
+
+```elixir
+OrbitalDispatch.Oban.drain_queue(queue: :launches)
+OrbitalDispatch.launch_attempts()
+```
+
+The job should now be `retryable`, carrying the first failure and a future
+`scheduled_at`.
+
+## Push Time Forward
+
+```elixir
+future = DateTime.add(DateTime.utc_now(), 120, :second)
+
+OrbitalDispatch.Oban.drain_queue(queue: :launches, with_scheduled: future)
+OrbitalDispatch.launch_attempts()
+```
+
+Once the second attempt succeeds, the launch drops out of `launch_attempts/0`.
