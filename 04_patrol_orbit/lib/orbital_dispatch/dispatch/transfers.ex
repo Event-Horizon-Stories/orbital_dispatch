@@ -1,5 +1,7 @@
 defmodule OrbitalDispatch.Dispatch.Transfers do
-  @moduledoc false
+  @moduledoc """
+  Owns replacement-transfer work scheduled for a later docking window.
+  """
 
   alias OrbitalDispatch.Dispatch.{JobView, Normalization}
   alias OrbitalDispatch.Workers.ReplacementTransfer
@@ -36,6 +38,7 @@ defmodule OrbitalDispatch.Dispatch.Transfers do
               docking_window_opens_at: DateTime.to_iso8601(docking_window_opens_at),
               approach_corridor: approach_corridor
             }
+            # Leave optional fields out entirely when they aren't provided.
             |> Enum.reject(fn {_key, value} -> is_nil(value) end)
             |> Map.new()
 

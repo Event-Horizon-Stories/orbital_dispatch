@@ -1,5 +1,11 @@
 defmodule OrbitalDispatch.Dispatch.JobView do
-  @moduledoc false
+  @moduledoc """
+  Builds beginner-friendly snapshots from raw `oban_jobs` rows.
+
+  Oban stores job arguments as JSON, which means timestamps come back out as
+  strings. This module is the single place where lessons turn persisted jobs
+  into maps that are easier to inspect in tests and `iex`.
+  """
 
   import Ecto.Query
 
@@ -7,6 +13,7 @@ defmodule OrbitalDispatch.Dispatch.JobView do
   alias OrbitalDispatch.Repo
 
   def list(worker, states, snapshotter) do
+    # Query first, then project each persisted job into a lesson-specific view.
     Job
     |> where([job], job.worker == ^Oban.Worker.to_string(worker))
     |> where([job], job.state in ^states)
@@ -35,6 +42,7 @@ defmodule OrbitalDispatch.Dispatch.JobView do
   def parse_timestamp(nil), do: nil
 
   def parse_timestamp(value) do
+    # Jobs persist timestamps as ISO8601 strings, so readers get real DateTimes back here.
     case DateTime.from_iso8601(value) do
       {:ok, datetime, _offset} -> datetime
       {:error, _reason} -> nil

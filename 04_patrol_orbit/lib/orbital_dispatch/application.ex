@@ -1,5 +1,11 @@
 defmodule OrbitalDispatch.Application do
-  @moduledoc false
+  @moduledoc """
+  Starts the supervision tree for the lesson application.
+
+  The runtime stays compact even in chapter 4: a repo plus one Oban instance.
+  The new patrol behavior comes from added workers and config, not from a
+  different OTP shape.
+  """
 
   use Application
 

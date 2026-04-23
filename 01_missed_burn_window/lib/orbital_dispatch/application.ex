@@ -1,5 +1,11 @@
 defmodule OrbitalDispatch.Application do
-  @moduledoc false
+  @moduledoc """
+  Starts the runtime for the lesson application.
+
+  The supervision tree is intentionally small in chapter 1: a database repo and
+  one Oban instance. That keeps the focus on the first durable obligation while
+  still showing the shape of a normal OTP application.
+  """
 
   use Application
 

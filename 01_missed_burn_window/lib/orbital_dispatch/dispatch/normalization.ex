@@ -1,5 +1,11 @@
 defmodule OrbitalDispatch.Dispatch.Normalization do
-  @moduledoc false
+  @moduledoc """
+  Small input-shaping helpers shared by the dispatch submodules.
+
+  The lessons accept maps from tests and `iex`, where keys may be atoms or
+  strings. Centralizing that normalization keeps the dispatch modules focused on
+  queue behavior instead of repetitive data cleanup.
+  """
 
   def required_values(attrs, fields) do
     Enum.reduce(fields, %{}, fn field, acc ->
@@ -14,6 +20,7 @@ defmodule OrbitalDispatch.Dispatch.Normalization do
   end
 
   def fetch_value(attrs, field) do
+    # Accept either atom or string keys so examples stay friendly in `iex`.
     Map.get(attrs, field) || Map.get(attrs, Atom.to_string(field))
   end
 

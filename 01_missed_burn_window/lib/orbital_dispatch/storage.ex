@@ -1,11 +1,19 @@
 defmodule OrbitalDispatch.Storage do
-  @moduledoc false
+  @moduledoc """
+  Prepares local SQLite storage for lesson commands and tests.
+
+  The chapters keep database setup explicit instead of doing it during normal
+  runtime startup. That teaches a safer shape: the app runs against an existing
+  schema, while setup commands prepare the schema on purpose.
+  """
 
   alias OrbitalDispatch.Repo
 
   def ensure_ready! do
     ensure_storage!()
 
+    # Migrations need a running repo. Start one temporarily if the application
+    # hasn't started it yet, then stop only the repo we started here.
     {pid, started_here?} = ensure_repo_started!()
 
     try do

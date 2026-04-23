@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Dispatch.Launches do
-  @moduledoc false
+  @moduledoc """
+  Owns cargo-launch creation and retry inspection.
+
+  This module is carried forward unchanged into chapter 3 so earlier behavior
+  remains visible while new scheduling behavior is added elsewhere.
+  """
 
   alias OrbitalDispatch.Dispatch.{JobView, Normalization}
   alias OrbitalDispatch.Workers.CargoLaunch
@@ -33,6 +38,7 @@ defmodule OrbitalDispatch.Dispatch.Launches do
                  clears_on_attempt,
                  :guidance_noise_clears_on_attempt
                ) do
+          # Keep job args as plain JSON-compatible values.
           {:ok,
            %{
              drone_id: normalized.drone_id,

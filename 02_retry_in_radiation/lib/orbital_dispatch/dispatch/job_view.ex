@@ -1,5 +1,11 @@
 defmodule OrbitalDispatch.Dispatch.JobView do
-  @moduledoc false
+  @moduledoc """
+  Projects persisted Oban jobs into maps that are easier to read in the lesson.
+
+  Oban's stored jobs are rich but low-level. These helpers shape them into
+  snapshots that beginners can inspect without learning the whole `%Oban.Job{}`
+  struct first.
+  """
 
   import Ecto.Query
 
@@ -7,6 +13,7 @@ defmodule OrbitalDispatch.Dispatch.JobView do
   alias OrbitalDispatch.Repo
 
   def list(worker, states, snapshotter) do
+    # Each queue type uses the same query shape and only changes the snapshot function.
     Job
     |> where([job], job.worker == ^Oban.Worker.to_string(worker))
     |> where([job], job.state in ^states)
@@ -51,6 +58,7 @@ defmodule OrbitalDispatch.Dispatch.JobView do
   def parse_timestamp(nil), do: nil
 
   def parse_timestamp(value) do
+    # JSON-backed args store timestamps as strings, so the lesson converts them back here.
     case DateTime.from_iso8601(value) do
       {:ok, datetime, _offset} -> datetime
       {:error, _reason} -> nil

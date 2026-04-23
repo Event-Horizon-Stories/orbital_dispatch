@@ -1,5 +1,7 @@
 defmodule OrbitalDispatch.Workers.ReplacementTransfer do
-  @moduledoc false
+  @moduledoc """
+  Performs a replacement transfer once its scheduled window is reached.
+  """
 
   use Oban.Worker, queue: :transfers, max_attempts: 1
 

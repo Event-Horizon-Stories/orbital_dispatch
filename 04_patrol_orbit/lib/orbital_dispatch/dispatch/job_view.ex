@@ -1,5 +1,11 @@
 defmodule OrbitalDispatch.Dispatch.JobView do
-  @moduledoc false
+  @moduledoc """
+  Projects persisted Oban jobs into maps that are easier to inspect.
+
+  Oban gives the app a full `%Oban.Job{}` struct, but most lesson readers only
+  need the domain fields plus a few queue details. This module keeps that
+  translation in one place.
+  """
 
   import Ecto.Query
 
@@ -7,6 +13,7 @@ defmodule OrbitalDispatch.Dispatch.JobView do
   alias OrbitalDispatch.Repo
 
   def list(worker, states, snapshotter) do
+    # All queue views share the same query; only the snapshot projection changes.
     Job
     |> where([job], job.worker == ^Oban.Worker.to_string(worker))
     |> where([job], job.state in ^states)
@@ -86,6 +93,7 @@ defmodule OrbitalDispatch.Dispatch.JobView do
   def parse_timestamp(nil), do: nil
 
   def parse_timestamp(value) do
+    # Job args are persisted as strings, so timestamps are converted back here.
     case DateTime.from_iso8601(value) do
       {:ok, datetime, _offset} -> datetime
       {:error, _reason} -> nil

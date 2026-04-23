@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Dispatch.Normalization do
-  @moduledoc false
+  @moduledoc """
+  Shared input-shaping helpers for dispatch code.
+
+  Keeping these helpers in one place lets the lesson reuse the same rules for
+  atom versus string keys, timestamp parsing, and positive-integer checks.
+  """
 
   def required_values(attrs, fields) do
     Enum.reduce(fields, %{}, fn field, acc ->
@@ -14,6 +19,7 @@ defmodule OrbitalDispatch.Dispatch.Normalization do
   end
 
   def fetch_value(attrs, field) do
+    # IEx examples often use atom keys, while persisted params may already be strings.
     Map.get(attrs, field) || Map.get(attrs, Atom.to_string(field))
   end
 

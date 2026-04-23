@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Dispatch.Normalization do
-  @moduledoc false
+  @moduledoc """
+  Shared helpers for turning lesson input into queue-ready values.
+
+  The examples in tests and `iex` often use a mix of atom keys, string keys,
+  `DateTime`s, and strings. These helpers make that variation predictable.
+  """
 
   def required_values(attrs, fields) do
     Enum.reduce(fields, %{}, fn field, acc ->
@@ -14,6 +19,7 @@ defmodule OrbitalDispatch.Dispatch.Normalization do
   end
 
   def fetch_value(attrs, field) do
+    # Accept both atom and string keys so interactive examples stay forgiving.
     Map.get(attrs, field) || Map.get(attrs, Atom.to_string(field))
   end
 

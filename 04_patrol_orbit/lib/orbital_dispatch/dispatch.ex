@@ -1,5 +1,10 @@
 defmodule OrbitalDispatch.Dispatch do
-  @moduledoc false
+  @moduledoc """
+  The dispatch boundary for chapter 4.
+
+  This module routes the stable public API into smaller submodules for repairs,
+  launches, transfers, and recurring patrol work.
+  """
 
   alias OrbitalDispatch.Dispatch.{Launches, Patrols, Repairs, Transfers}
 
