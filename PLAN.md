@@ -1,91 +1,85 @@
 # orbital_dispatch Plan
 
-`orbital_dispatch` teaches durable background work through the slow hardening of
-an interplanetary dispatch office.
+`orbital_dispatch` teaches Oban through the slow hardening of Port Meridian
+Dispatch, an orbital office that has already learned the difference between
+hearing about a failure and carrying the work through.
 
-This is the Oban story in the shared universe.
+The fleet can already sense trouble at distance. The network can already route
+alerts across relay chains and storm gates. Command can already summarize what
+went wrong. What keeps failing now is follow-through.
 
-The fleet already has autonomous probes, command hulls, relay skiffs, and
-mission summaries that cross space at light-lag. The network can already tell
-operators what went wrong. That still is not enough.
+By the time a warning reaches a human bridge:
 
-What keeps failing now is follow-through.
-
-By the time an alert reaches a human bridge:
-
-- the thermal crack has already widened through three eclipse cycles
-- the relay has already drifted further off its intended plane
-- the docking window may already be gone
-- the propellant budget may already be tighter than the original plan assumed
+- a relay has already drifted wider off plane
+- a docking window may already be gone
+- a crack has already widened through multiple eclipse cycles
+- a propellant budget may already be tighter than the original plan assumed
 
 The system can know all of that and still lose the work if "someone should do
-this later" has no durable owner.
+this later" has no durable runtime owner.
+
+## Inputs
+
+- Repo Name: `orbital_dispatch`
+- Learning Goal: `Oban`
+- Story: `Orbital Dispatch`
 
 ## Timeline Position
 
 `orbital_dispatch` fits after `helios_fleet` and `signal_network`, and before
 or alongside `galactic_trade_authority`.
 
-- `mars_colony_otp` teaches runtime survival and operational structure
-- `helios_fleet` teaches autonomous action under distance and light-lag
-- `signal_network` teaches live coordination across worlds
-- `orbital_dispatch` teaches how obligations survive time, retries, and failure
-- `galactic_trade_authority` can then inherit a world where institutions already
-  expect durable operational follow-through
+- `mars_colony_otp` establishes local runtime survival and operational shape
+- `helios_fleet` establishes autonomous action under distance and light-lag
+- `signal_network` establishes live coordination across worlds
+- `orbital_dispatch` establishes durable obligation over time
+- `galactic_trade_authority` can then inherit a world that already expects
+  durable operational follow-through
+
+## Story Plot Spine
+
+Port Meridian Dispatch sits above a transfer corridor that serves relays,
+survey hulls, patrol skiffs, and repair tenders moving between planetary
+stations and outer observation lines.
+
+The office is not failing because it lacks information. It is failing because
+its obligations are still too easy to lose:
+
+- one restart clears a repair note before a launch tender can undock
+- one particle storm turns a failed attempt into forgotten work
+- one narrow approach window separates "known now" from "action later"
+- one duplicate distress burst wastes fuel if the office responds twice
+- one crowded queue can hide whether the system understands urgency at all
+
+The plot of the first arc is the office learning to become answerable. Every
+chapter makes one kind of obligation survive a little longer and a little more
+honestly.
 
 ## Teaching Thesis
 
 Oban should not arrive as "background jobs" in the abstract.
 
-It should arrive as the natural shape of a world where:
+It belongs in a world where:
 
-- work often cannot finish in the same request that discovered it
+- work often cannot finish in the request that discovered it
 - execution may need to wait for orbital geometry or station readiness
-- transient failures are routine and need explicit retry policy
-- duplicate dispatch can waste fuel, time, and rescue capacity
-- operators need to inspect pending, running, retried, and exhausted work
+- transient failure is routine and needs explicit retry policy
+- duplicate dispatch can waste fuel, rescue mass, and corridor access
+- operators need to inspect pending, running, retried, scheduled, and
+  exhausted work
 
 The repo should teach the pressure first and the Oban features second.
 
-## Core Story Problem
-
-The fleet has crossed the threshold where intent is cheap but follow-through is
-expensive.
-
-Operators can issue orders. Ships can receive signals. Agents can react.
-
-But the system still lacks one durable owner for obligations that must outlive:
-
-- process restarts
-- operator shift changes
-- comms blackout and signal delay
-- missed burns and closed docking windows
-- one-off execution failures caused by radiation, drift, or bad geometry
-
-`orbital_dispatch` is the story of building that owner.
-
-## What The Fleet Is Solving
-
-Across the series, the dispatch office should solve problems like these:
-
-- delayed repair launches for remote relays and stations
-- replacement-part transfers tied to narrow approach windows
-- recurring patrol rotations and inspection passes
-- escort assignments that need retry and escalation
-- duplicate distress response prevention when the same failure is reported twice
-- priority routing so life-support or corridor-loss incidents outrank routine work
-- operator visibility into pending, running, failed, retried, and exhausted jobs
-
 ## Scope Boundaries
 
-Keep the repo focused on durable work execution and inspection.
+Keep the repo centered on durable work execution and inspection.
 
 Include:
 
 - job enqueueing
-- named workers with explicit operational responsibilities
-- retry behavior and backoff
-- scheduling
+- workers with explicit operational responsibilities
+- retries and backoff
+- scheduled execution
 - uniqueness
 - prioritization
 - queue inspection or small observability surfaces when the reader needs to see
@@ -97,20 +91,19 @@ Do not turn this repo into:
 - a second PubSub tutorial
 - a replacement for `helios_fleet`
 - a full event-sourcing tutorial
-- a full Phoenix UI app
-- a bureaucracy and policy engine like `galactic_trade_authority`
-
-Those can touch the story, but they should not become the teaching center.
+- a full Phoenix UI application
+- a bureaucracy engine like `galactic_trade_authority`
 
 ## Chapter Shape
 
 Each chapter should be a standalone Mix project.
 
-Like the other story repos, the concept should remain cumulative even if every
-directory is independently runnable. The dispatch office keeps the same
-identity from beginning to end while the operational pressure worsens.
+The office identity stays constant from beginning to end while the operational
+pressure worsens. Every next chapter should feel like:
 
-## Proposed Arc
+`previous dispatch office + one more durable obligation problem`
+
+## Chapter Arc
 
 ### 01_missed_burn_window
 
@@ -127,7 +120,7 @@ Scope:
 
 - one repair dispatch worker
 - one enqueue path from a detected relay problem
-- minimal job inspection just to prove the work is durable
+- minimal job inspection to prove the work survives restart
 
 Story pressure:
 
@@ -145,7 +138,7 @@ Teach:
 - retries
 - backoff
 - bounded failure handling
-- the difference between a transient failure and exhausted work
+- the difference between transient failure and exhausted work
 
 Scope:
 
@@ -155,19 +148,20 @@ Scope:
 
 Story pressure:
 
-A cargo drone fails to undock when a particle storm spikes the station's
-guidance noise. The job must try again on the next cleaner interval without an
-operator manually re-creating it.
+A cargo drone fails to undock when a particle storm spikes the station guidance
+noise. The job must try again on the next cleaner interval without an operator
+recreating it by hand.
 
 ### 03_scheduled_transfer
 
-Dispatch learns that some work should not run now even when it is already known.
+Dispatch learns that some work should not run now even when it is already
+known.
 
 Teach:
 
 - scheduled jobs
 - delayed execution
-- why timing belongs in the job system instead of sleep logic and handoffs
+- why timing belongs in the job system instead of sleep logic and handoff notes
 
 Scope:
 
@@ -182,7 +176,7 @@ now.
 
 ### 04_patrol_orbit
 
-The fleet stops thinking only in terms of one-off jobs and starts maintaining
+The office stops thinking only in terms of one-off jobs and starts carrying
 recurring obligation.
 
 Teach:
@@ -194,13 +188,13 @@ Teach:
 Scope:
 
 - recurring corridor patrol or station inspection job
-- one worker that records patrol completion or missed patrol state
+- one worker that records patrol completion or missed-patrol state
 
 Story pressure:
 
 Outer transfer routes look quiet because no one is checking them often enough.
-Micrometeoroid damage and relay ice accretion become dangerous precisely because
-routine inspection was never promoted into real work.
+Micrometeoroid damage and relay ice accretion become dangerous precisely
+because routine inspection was never promoted into real work.
 
 ### 05_duplicate_distress
 
@@ -252,13 +246,14 @@ Teach:
 
 - workflows where completion triggers follow-up work
 - keeping cross-step obligation explicit
-- how dispatch can move from isolated jobs into controlled multi-step operations
+- how dispatch moves from isolated jobs into controlled multi-step operations
 
 Scope:
 
 - repair completed -> verification flyby scheduled
 - escort completed -> cargo inspection scheduled
-- small workflow surface without turning the repo into a full process-manager story
+- a small workflow surface without turning the repo into a full process-manager
+  story
 
 Story pressure:
 
@@ -281,7 +276,8 @@ Scope:
 
 - escalation job or alert when retries are exhausted
 - dispatch snapshot or inspection API for exhausted work
-- chapter-ending summary of pending, running, completed, and exhausted obligations
+- chapter-ending summary of pending, running, completed, scheduled, and
+  exhausted obligations
 
 Story pressure:
 
@@ -289,6 +285,20 @@ A station-keeping fault keeps reappearing after every retry. The office needs
 something more honest than a silent dead job. It needs visible escalation
 because the orbital consequences keep getting worse while the queue keeps
 trying.
+
+## Plot Beat By Chapter
+
+Across the first arc, the office should move through this emotional and
+operational progression:
+
+1. work can disappear
+2. work can survive failure
+3. work can wait for the right time
+4. work can recur without being remembered manually
+5. work can refuse duplication
+6. work can admit urgency
+7. work can create more work without losing the chain
+8. work can fail honestly
 
 ## Learning Outcomes By The End
 
@@ -301,17 +311,12 @@ By the end of the repo, the reader should understand:
 - how a queue becomes part of the world model once operations span distance,
   delay, and failure
 
-## Optional Future Extensions
+## Initial Delivery Plan
 
-If the repo later wants bonus chapters or appendices, the strongest follow-ons
-would be:
+The first repo slice should land:
 
-- richer operational inspection through a small Phoenix surface
-- telemetry-driven queue health and saturation visibility
-- sector-specific dispatch once the story wants to bridge toward
-  `galactic_trade_authority`
-- branch-aware repair or replay work if the story later wants to touch the
-  `wormhole_protocol` era
-
-Those are worth doing only after the core repo cleanly teaches durable
-obligation, retries, scheduling, uniqueness, prioritization, and escalation.
+- a root README that fixes the world, pressure, and chapter arc
+- this plan file
+- a `livebooks/README.md` stub that establishes companion intent
+- the first lesson once the core worker, enqueue path, and inspection surface
+  are worth teaching concretely
