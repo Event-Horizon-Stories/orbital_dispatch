@@ -1,0 +1,52 @@
+# Exhausted Escalation
+
+Retries are useful until they are no longer enough. This lesson shows the point
+where the verification pass exhausts and the queue creates explicit escalation
+work.
+
+## Schedule A Verification That Won't Clear
+
+```elixir
+alias OrbitalDispatch
+
+verification_window = ~U[2041-05-22 11:19:00Z]
+future = DateTime.add(verification_window, 30 * 60, :second)
+
+OrbitalDispatch.schedule_corridor_verification(%{
+  corridor_id: "OX-17",
+  checkpoint: "meridian throat",
+  repaired_system: "oxygen transfer trunk",
+  source_operation: "pressure_loss_response",
+  verification_window_opens_at: verification_window,
+  station_keeping_fault_clears_on_attempt: 4
+})
+```
+
+## Exhaust The Verification
+
+```elixir
+OrbitalDispatch.Oban.drain_queue(queue: :verifications, with_scheduled: future)
+OrbitalDispatch.Oban.drain_queue(queue: :verifications, with_scheduled: future)
+OrbitalDispatch.Oban.drain_queue(queue: :verifications, with_scheduled: future)
+```
+
+The first two drains should retry the verification. The third should discard it
+and create one escalation job.
+
+## Inspect The Exhausted Work
+
+```elixir
+OrbitalDispatch.exhausted_verifications()
+```
+
+You should see the discarded verification with its source operation and attempt
+count.
+
+## Inspect The Escalation
+
+```elixir
+OrbitalDispatch.escalations()
+```
+
+You should see one available escalation for the same corridor with the reason
+`verification_exhausted`.

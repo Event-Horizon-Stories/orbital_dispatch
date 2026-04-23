@@ -185,4 +185,4 @@ story for the work that retries, retries again, and still does not complete.
 
 The next lesson makes failure visible after the queue has already tried its
 best:
-[`08_exhausted_escalation`](../PLAN.md#08_exhausted_escalation).
+[`08_exhausted_escalation`](../08_exhausted_escalation/README.md).
