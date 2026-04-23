@@ -1,4 +1,4 @@
-defmodule OrbitalDispatch.MissedBurnWindowTest do
+defmodule OrbitalDispatch.Dispatch.RepairsTest do
   use ExUnit.Case, async: false
 
   alias OrbitalDispatch.Repo
@@ -7,6 +7,11 @@ defmodule OrbitalDispatch.MissedBurnWindowTest do
 
   setup do
     Application.ensure_all_started(:orbital_dispatch)
+
+    if is_nil(Process.whereis(OrbitalDispatch.Supervisor)) do
+      assert {:ok, _supervisor} = OrbitalDispatch.Application.start(:normal, [])
+    end
+
     Repo.delete_all(Job)
 
     :ok
@@ -59,12 +64,7 @@ defmodule OrbitalDispatch.MissedBurnWindowTest do
     :ok = Supervisor.stop(supervisor)
     assert {:ok, _supervisor} = OrbitalDispatch.Application.start(:normal, [])
 
-    assert [
-             %{
-               job_id: ^job_id,
-               relay_id: "L5-12",
-               state: "available"
-             }
-           ] = OrbitalDispatch.pending_repairs()
+    assert [%{job_id: ^job_id, relay_id: "L5-12", state: "available"}] =
+             OrbitalDispatch.pending_repairs()
   end
 end
