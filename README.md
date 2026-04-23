@@ -23,6 +23,7 @@ Livebook companions live in [`livebooks/`](./livebooks/README.md).
 - [`livebooks/05_duplicate_distress.livemd`](./livebooks/05_duplicate_distress.livemd)
 - [`livebooks/06_priority_corridor.livemd`](./livebooks/06_priority_corridor.livemd)
 - [`livebooks/07_verification_pass.livemd`](./livebooks/07_verification_pass.livemd)
+- [`livebooks/08_exhausted_escalation.livemd`](./livebooks/08_exhausted_escalation.livemd)
 
 ## The Journey
 
@@ -50,7 +51,7 @@ office will keep hardening under pressure:
 7. [`07_verification_pass`](./07_verification_pass/README.md)
    Completing one job creates another, and dispatch learns to carry follow-up
    obligation explicitly.
-8. [`08_exhausted_escalation`](./PLAN.md#08_exhausted_escalation)
+8. [`08_exhausted_escalation`](./08_exhausted_escalation/README.md)
    Retries are no longer enough, and the office has to surface exhausted work
    honestly.
 
