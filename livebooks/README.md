@@ -9,10 +9,10 @@ Available now:
 - [`03_scheduled_transfer.livemd`](./03_scheduled_transfer.livemd)
 - [`04_patrol_orbit.livemd`](./04_patrol_orbit.livemd)
 - [`05_duplicate_distress.livemd`](./05_duplicate_distress.livemd)
+- [`06_priority_corridor.livemd`](./06_priority_corridor.livemd)
 
 Planned next:
 
-- `06_priority_corridor.livemd`
 - `07_verification_pass.livemd`
 - `08_exhausted_escalation.livemd`
 

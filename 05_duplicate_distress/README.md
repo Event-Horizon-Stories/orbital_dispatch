@@ -195,4 +195,4 @@ already waiting in line.
 
 The next lesson puts urgent failure and routine upkeep into direct conflict and
 makes the queue prove whether it understands the difference:
-[`06_priority_corridor`](../PLAN.md#06_priority_corridor).
+[`06_priority_corridor`](../06_priority_corridor/README.md).

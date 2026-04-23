@@ -1,0 +1,57 @@
+# Priority Corridor
+
+Durability is no longer enough. The queue has to show that a pressure-loss
+alarm outranks routine corridor upkeep even when it arrives later.
+
+## Enqueue The Inspection Backlog
+
+```elixir
+alias OrbitalDispatch
+
+inspection_window = ~U[2041-05-22 09:15:00Z]
+
+OrbitalDispatch.schedule_corridor_inspection(%{
+  corridor_id: "OX-17",
+  checkpoint: "meridian throat",
+  maintenance_window_opens_at: inspection_window,
+  risk: "seal fatigue survey backlog"
+})
+
+OrbitalDispatch.schedule_corridor_inspection(%{
+  corridor_id: "OX-18",
+  checkpoint: "outer scrubber ring",
+  maintenance_window_opens_at: inspection_window,
+  risk: "sensor drift audit"
+})
+```
+
+## Enqueue The Emergency
+
+```elixir
+OrbitalDispatch.report_corridor_pressure_loss(%{
+  corridor_id: "OX-17",
+  checkpoint: "meridian throat",
+  affected_system: "oxygen transfer trunk",
+  pressure_loss_kpa: 18,
+  reported_at: ~U[2041-05-22 09:19:00Z]
+})
+```
+
+## Inspect The Queue
+
+```elixir
+OrbitalDispatch.corridor_operations()
+```
+
+The pressure-loss response should appear first because its priority is higher,
+even though the inspection jobs were inserted earlier.
+
+## Drain One Job
+
+```elixir
+OrbitalDispatch.Oban.drain_queue(queue: :corridors, with_limit: 1)
+OrbitalDispatch.corridor_operations()
+```
+
+Only the emergency should complete on the first drain. The inspection backlog
+should remain queued behind it.
