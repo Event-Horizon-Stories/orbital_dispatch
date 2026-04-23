@@ -10,10 +10,10 @@ Available now:
 - [`04_patrol_orbit.livemd`](./04_patrol_orbit.livemd)
 - [`05_duplicate_distress.livemd`](./05_duplicate_distress.livemd)
 - [`06_priority_corridor.livemd`](./06_priority_corridor.livemd)
+- [`07_verification_pass.livemd`](./07_verification_pass.livemd)
 
 Planned next:
 
-- `07_verification_pass.livemd`
 - `08_exhausted_escalation.livemd`
 
 The companions should exercise the accumulated dispatch office, not just the

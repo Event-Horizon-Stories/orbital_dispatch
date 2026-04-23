@@ -186,4 +186,4 @@ step after one job completes.
 
 The next lesson makes one finished operation create another and teaches the
 office to keep the chain visible instead of trusting memory:
-[`07_verification_pass`](../PLAN.md#07_verification_pass).
+[`07_verification_pass`](../07_verification_pass/README.md).

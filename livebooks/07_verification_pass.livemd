@@ -1,0 +1,52 @@
+# Verification Pass
+
+The corridor repair is not the end of the story. Once the urgent fix completes,
+dispatch should carry the verification pass as its own scheduled obligation.
+
+## Enqueue The Emergency
+
+```elixir
+alias OrbitalDispatch
+
+reported_at = ~U[2041-05-22 09:19:00Z]
+
+OrbitalDispatch.report_corridor_pressure_loss(%{
+  corridor_id: "OX-17",
+  checkpoint: "meridian throat",
+  affected_system: "oxygen transfer trunk",
+  pressure_loss_kpa: 18,
+  reported_at: reported_at
+})
+```
+
+## Complete The Repair
+
+```elixir
+OrbitalDispatch.Oban.drain_queue(queue: :corridors, with_limit: 1)
+```
+
+The pressure-response job should complete and create a scheduled verification
+pass two hours after the original report.
+
+## Inspect The Follow-Up
+
+```elixir
+OrbitalDispatch.verification_passes()
+```
+
+You should see one scheduled verification pass with the source operation and
+the verification window.
+
+## Complete The Verification
+
+```elixir
+OrbitalDispatch.Oban.drain_queue(
+  queue: :verifications,
+  with_scheduled: ~U[2041-05-22 11:20:00Z]
+)
+
+OrbitalDispatch.verification_passes()
+```
+
+The verification pass should now be completed and remain visible in the queue
+inspection surface.
