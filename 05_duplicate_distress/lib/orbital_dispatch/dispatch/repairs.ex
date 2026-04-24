@@ -1,6 +1,6 @@
 defmodule OrbitalDispatch.Dispatch.Repairs do
   @moduledoc """
-  Keeps the original relay-repair path available in the chapter 4 app.
+  Keeps the original relay-repair path available as the series grows.
   """
 
   alias OrbitalDispatch.Dispatch.{JobView, Normalization}

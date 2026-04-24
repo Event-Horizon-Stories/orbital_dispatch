@@ -37,4 +37,27 @@ defmodule OrbitalDispatch.Dispatch.RepairsTest do
              }
            ] = OrbitalDispatch.pending_repairs()
   end
+
+  test "the repair obligation survives a dispatch restart" do
+    assert {:ok, job} =
+             OrbitalDispatch.report_relay_fracture(%{
+               relay_id: "L5-12",
+               orbit: "eclipse-side maintenance arc",
+               fracture: "yaw gimbal fracture",
+               detected_at: "2041-03-17T01:15:00Z",
+               burn_window_opens_at: ~U[2041-03-17 02:00:00Z]
+             })
+
+    job_id = job.id
+
+    assert [%{job_id: ^job_id, relay_id: "L5-12", state: "available"}] =
+             OrbitalDispatch.pending_repairs()
+
+    assert is_pid(Process.whereis(OrbitalDispatch.Supervisor))
+    :ok = Application.stop(:orbital_dispatch)
+    assert {:ok, _apps} = Application.ensure_all_started(:orbital_dispatch)
+
+    assert [%{job_id: ^job_id, relay_id: "L5-12", state: "available"}] =
+             OrbitalDispatch.pending_repairs()
+  end
 end

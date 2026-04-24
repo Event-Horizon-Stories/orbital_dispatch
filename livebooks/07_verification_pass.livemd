@@ -26,12 +26,13 @@ OrbitalDispatch.Oban.drain_queue(queue: :corridors, with_limit: 1)
 ```
 
 The pressure-response job should complete and create a scheduled verification
-pass two hours after the original report.
+pass two hours after the repair finishes.
 
 ## Inspect The Follow-Up
 
 ```elixir
-OrbitalDispatch.verification_passes()
+[%{verification_window_opens_at: verification_window_opens_at}] =
+  OrbitalDispatch.verification_passes()
 ```
 
 You should see one scheduled verification pass with the source operation and
@@ -42,7 +43,7 @@ the verification window.
 ```elixir
 OrbitalDispatch.Oban.drain_queue(
   queue: :verifications,
-  with_scheduled: ~U[2041-05-22 11:20:00Z]
+  with_scheduled: DateTime.add(verification_window_opens_at, 60, :second)
 )
 
 OrbitalDispatch.verification_passes()

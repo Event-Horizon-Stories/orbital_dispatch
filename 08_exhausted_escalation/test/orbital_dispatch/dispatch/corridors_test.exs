@@ -84,4 +84,16 @@ defmodule OrbitalDispatch.Dispatch.CorridorsTest do
              }
            ] = OrbitalDispatch.corridor_operations()
   end
+
+  test "pressure-loss retry metadata is validated at the corridor boundary" do
+    assert {:error, {:invalid_positive_integer, :station_keeping_fault_clears_on_attempt, 0}} =
+             OrbitalDispatch.report_corridor_pressure_loss(%{
+               corridor_id: "OX-17",
+               checkpoint: "meridian throat",
+               affected_system: "oxygen transfer trunk",
+               pressure_loss_kpa: 18,
+               station_keeping_fault_clears_on_attempt: 0,
+               reported_at: ~U[2041-05-22 09:19:00Z]
+             })
+  end
 end

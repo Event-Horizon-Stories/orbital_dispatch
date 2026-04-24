@@ -150,8 +150,12 @@ metadata in its snapshot, then move to `completed` after the manual drain.
 
 ## What the Tests Prove
 
-[`test/patrol_orbit_test.exs`](./test/patrol_orbit_test.exs) proves four
-behaviors:
+[`test/orbital_dispatch/dispatch/repairs_test.exs`](./test/orbital_dispatch/dispatch/repairs_test.exs),
+[`test/orbital_dispatch/dispatch/launches_test.exs`](./test/orbital_dispatch/dispatch/launches_test.exs),
+[`test/orbital_dispatch/dispatch/transfers_test.exs`](./test/orbital_dispatch/dispatch/transfers_test.exs),
+and
+[`test/orbital_dispatch/dispatch/patrols_test.exs`](./test/orbital_dispatch/dispatch/patrols_test.exs)
+prove four behaviors:
 
 - the relay-repair path from lesson 1 still works unchanged
 - the cargo-launch retry path from lesson 2 still works unchanged

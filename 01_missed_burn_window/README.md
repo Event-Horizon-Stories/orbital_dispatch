@@ -144,8 +144,8 @@ fracture details, and the opening burn window still attached to it.
 
 ## What the Tests Prove
 
-[`test/missed_burn_window_test.exs`](./test/missed_burn_window_test.exs) proves
-two behaviors:
+[`test/orbital_dispatch/dispatch/repairs_test.exs`](./test/orbital_dispatch/dispatch/repairs_test.exs)
+proves two behaviors:
 
 - relay damage is turned into a persisted repair obligation instead of an in-memory note
 - the obligation survives a supervisor restart and remains inspectable afterward

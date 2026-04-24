@@ -9,7 +9,6 @@ defmodule OrbitalDispatch.Dispatch.Escalations do
 
   alias OrbitalDispatch.Dispatch.JobView
   alias OrbitalDispatch.Workers.VerificationEscalation
-
   @visible_states ["available", "scheduled", "executing", "completed"]
 
   def escalations do

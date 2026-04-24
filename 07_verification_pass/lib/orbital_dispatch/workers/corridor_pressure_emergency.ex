@@ -23,8 +23,9 @@ defmodule OrbitalDispatch.Workers.CorridorPressureEmergency do
           "reported_at" => reported_at
         }
       }) do
-    with {:ok, reported_at} <- Normalization.normalize_timestamp(reported_at),
-         verification_window_opens_at <- DateTime.add(reported_at, 2 * 60 * 60, :second),
+    with {:ok, _reported_at} <- Normalization.normalize_timestamp(reported_at),
+         repaired_at <- DateTime.utc_now() |> DateTime.truncate(:second),
+         verification_window_opens_at <- DateTime.add(repaired_at, 2 * 60 * 60, :second),
          {:ok, _verification_job} <-
            Verifications.schedule_corridor_verification(%{
              corridor_id: corridor_id,

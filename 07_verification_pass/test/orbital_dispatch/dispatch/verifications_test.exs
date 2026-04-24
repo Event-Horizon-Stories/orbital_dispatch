@@ -12,9 +12,8 @@ defmodule OrbitalDispatch.Dispatch.VerificationsTest do
 
   test "completing corridor pressure response schedules a verification pass" do
     reported_at = ~U[2041-05-22 09:19:00Z]
-    verification_window_opens_at = DateTime.add(reported_at, 2 * 60 * 60, :second)
 
-    assert {:ok, _job} =
+    assert {:ok, repair_job} =
              OrbitalDispatch.report_corridor_pressure_loss(%{
                corridor_id: "OX-17",
                checkpoint: "meridian throat",
@@ -25,8 +24,12 @@ defmodule OrbitalDispatch.Dispatch.VerificationsTest do
 
     assert [] == OrbitalDispatch.verification_passes()
 
+    verification_started_at = DateTime.utc_now() |> DateTime.truncate(:second)
+
     assert %{failure: 0, success: 1} =
              OrbitalDispatch.Oban.drain_queue(queue: :corridors, with_limit: 1)
+
+    verification_finished_at = DateTime.utc_now() |> DateTime.truncate(:second)
 
     assert [
              %{
@@ -34,11 +37,24 @@ defmodule OrbitalDispatch.Dispatch.VerificationsTest do
                checkpoint: "meridian throat",
                repaired_system: "oxygen transfer trunk",
                source_operation: "pressure_loss_response",
+               source_job_id: source_job_id,
                state: "scheduled",
                queue: "verifications",
-               verification_window_opens_at: ^verification_window_opens_at
+               verification_window_opens_at: verification_window_opens_at
              }
            ] = OrbitalDispatch.verification_passes()
+
+    assert source_job_id == repair_job.id
+
+    assert DateTime.compare(
+             verification_window_opens_at,
+             DateTime.add(verification_started_at, 2 * 60 * 60, :second)
+           ) != :lt
+
+    assert DateTime.compare(
+             verification_window_opens_at,
+             DateTime.add(verification_finished_at, 2 * 60 * 60, :second)
+           ) != :gt
 
     assert %{failure: 0, success: 1} =
              OrbitalDispatch.Oban.drain_queue(

@@ -58,6 +58,7 @@ defmodule OrbitalDispatch.Dispatch.PatrolsTest do
 
   defp with_patrol_cron(fun) do
     cron_instance = make_ref()
+    patrol_crontab = Application.fetch_env!(:orbital_dispatch, :patrol_crontab)
 
     start_supervised!(
       {Oban,
@@ -65,19 +66,7 @@ defmodule OrbitalDispatch.Dispatch.PatrolsTest do
        repo: OrbitalDispatch.Repo,
        engine: Oban.Engines.Lite,
        queues: false,
-       plugins: [
-         {Oban.Plugins.Cron,
-          crontab: [
-            {"* * * * *", OrbitalDispatch.Workers.CorridorPatrol,
-             args: %{
-               route_id: "outer transfer routes",
-               checkpoint: "ice-shadow repeater chain",
-               risk: "micrometeoroid scoring and relay ice accretion"
-             },
-             queue: :patrols,
-             max_attempts: 1}
-          ]}
-       ]}
+       plugins: [{Oban.Plugins.Cron, crontab: patrol_crontab}]}
     )
 
     fun.(cron_instance)

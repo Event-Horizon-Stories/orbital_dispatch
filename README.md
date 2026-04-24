@@ -63,11 +63,17 @@ like this:
 ```text
 OrbitalDispatch.Application
 |- OrbitalDispatch.Repo
-|- {Oban, ...}
+|- OrbitalDispatch.Oban
 |- OrbitalDispatch.Dispatch
-|- OrbitalDispatch.Inspection
-|- OrbitalDispatch.Escalation
-`- OrbitalDispatch.Observability
+|  |- Repairs
+|  |- Launches
+|  |- Transfers
+|  |- Patrols
+|  |- Escorts
+|  |- Corridors
+|  |- Verifications
+|  `- Escalations
+`- OrbitalDispatch.Workers.*
 ```
 
 The runtime stays intentionally small. The point is not to model a whole

@@ -129,8 +129,11 @@ same future docking window attached to it.
 
 ## What the Tests Prove
 
-[`test/scheduled_transfer_test.exs`](./test/scheduled_transfer_test.exs) proves
-three behaviors:
+[`test/orbital_dispatch/dispatch/repairs_test.exs`](./test/orbital_dispatch/dispatch/repairs_test.exs),
+[`test/orbital_dispatch/dispatch/launches_test.exs`](./test/orbital_dispatch/dispatch/launches_test.exs),
+and
+[`test/orbital_dispatch/dispatch/transfers_test.exs`](./test/orbital_dispatch/dispatch/transfers_test.exs)
+prove three behaviors:
 
 - the relay-repair path from lesson 1 still works unchanged
 - the cargo-launch retry path from lesson 2 still works unchanged
