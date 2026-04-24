@@ -134,8 +134,10 @@ attempt `1` and a future `scheduled_at`.
 
 ## What the Tests Prove
 
-[`test/retry_in_radiation_test.exs`](./test/retry_in_radiation_test.exs) proves
-three behaviors:
+[`test/orbital_dispatch/dispatch/repairs_test.exs`](./test/orbital_dispatch/dispatch/repairs_test.exs)
+and
+[`test/orbital_dispatch/dispatch/launches_test.exs`](./test/orbital_dispatch/dispatch/launches_test.exs)
+prove three behaviors:
 
 - the relay-repair path from lesson 1 still works unchanged
 - one storm-noise launch failure becomes `retryable` with explicit backoff and later completes

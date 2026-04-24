@@ -7,7 +7,10 @@ defmodule OrbitalDispatch.Workers.VerificationEscalation do
   letting exhaustion disappear into a discarded row alone.
   """
 
-  use Oban.Worker, queue: :escalations, max_attempts: 1
+  use Oban.Worker,
+    queue: :escalations,
+    max_attempts: 1,
+    unique: [period: :infinity, keys: [:verification_job_id]]
 
   @impl Oban.Worker
   def perform(%Oban.Job{

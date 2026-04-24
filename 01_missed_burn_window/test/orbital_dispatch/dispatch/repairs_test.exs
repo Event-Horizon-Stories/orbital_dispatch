@@ -7,7 +7,7 @@ defmodule OrbitalDispatch.Dispatch.RepairsTest do
 
   setup do
     if is_nil(Process.whereis(OrbitalDispatch.Supervisor)) do
-      assert {:ok, _supervisor} = OrbitalDispatch.Application.start(:normal, [])
+      assert {:ok, _apps} = Application.ensure_all_started(:orbital_dispatch)
     end
 
     Repo.delete_all(Job)
@@ -57,10 +57,9 @@ defmodule OrbitalDispatch.Dispatch.RepairsTest do
     assert [%{job_id: ^job_id, relay_id: "L5-12", state: "available"}] =
              OrbitalDispatch.pending_repairs()
 
-    supervisor = Process.whereis(OrbitalDispatch.Supervisor)
-    assert is_pid(supervisor)
-    :ok = Supervisor.stop(supervisor)
-    assert {:ok, _supervisor} = OrbitalDispatch.Application.start(:normal, [])
+    assert is_pid(Process.whereis(OrbitalDispatch.Supervisor))
+    :ok = Application.stop(:orbital_dispatch)
+    assert {:ok, _apps} = Application.ensure_all_started(:orbital_dispatch)
 
     assert [%{job_id: ^job_id, relay_id: "L5-12", state: "available"}] =
              OrbitalDispatch.pending_repairs()

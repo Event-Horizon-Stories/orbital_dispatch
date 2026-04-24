@@ -93,8 +93,9 @@ The corridor emergency worker now turns success into the next scheduled
 obligation:
 
 ```elixir
-with {:ok, reported_at} <- Normalization.normalize_timestamp(reported_at),
-     verification_window_opens_at <- DateTime.add(reported_at, 2 * 60 * 60, :second),
+with {:ok, _reported_at} <- Normalization.normalize_timestamp(reported_at),
+     repaired_at <- DateTime.utc_now() |> DateTime.truncate(:second),
+     verification_window_opens_at <- DateTime.add(repaired_at, 2 * 60 * 60, :second),
      {:ok, _verification_job} <-
        Verifications.schedule_corridor_verification(%{
          corridor_id: corridor_id,
@@ -142,7 +143,8 @@ OrbitalDispatch.verification_passes()
 ```
 
 After the corridor repair succeeds, you should see one scheduled verification
-pass with a `verification_window_opens_at` two hours after the original report.
+pass with a `verification_window_opens_at` two hours after the repair job
+finishes.
 
 If you then drain the verification queue with a later `with_scheduled`
 timestamp, the pass should complete and stay visible in the inspection surface.

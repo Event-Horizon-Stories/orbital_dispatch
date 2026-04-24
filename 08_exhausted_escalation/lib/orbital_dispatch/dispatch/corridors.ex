@@ -53,6 +53,9 @@ defmodule OrbitalDispatch.Dispatch.Corridors do
     normalized = Normalization.required_values(attrs, @emergency_required_fields)
     missing_fields = Normalization.missing_fields(normalized)
 
+    clears_on_attempt =
+      Normalization.fetch_value(attrs, :station_keeping_fault_clears_on_attempt) || 1
+
     case missing_fields do
       [] ->
         with {:ok, reported_at} <- Normalization.normalize_timestamp(normalized.reported_at),
@@ -60,6 +63,11 @@ defmodule OrbitalDispatch.Dispatch.Corridors do
                Normalization.normalize_positive_integer(
                  normalized.pressure_loss_kpa,
                  :pressure_loss_kpa
+               ),
+             {:ok, clears_on_attempt} <-
+               Normalization.normalize_positive_integer(
+                 clears_on_attempt,
+                 :station_keeping_fault_clears_on_attempt
                ) do
           {:ok,
            %{
@@ -67,8 +75,7 @@ defmodule OrbitalDispatch.Dispatch.Corridors do
              checkpoint: normalized.checkpoint,
              affected_system: normalized.affected_system,
              pressure_loss_kpa: pressure_loss_kpa,
-             station_keeping_fault_clears_on_attempt:
-               Normalization.fetch_value(attrs, :station_keeping_fault_clears_on_attempt) || 1,
+             station_keeping_fault_clears_on_attempt: clears_on_attempt,
              reported_at: DateTime.to_iso8601(reported_at)
            }}
         end

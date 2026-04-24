@@ -48,4 +48,35 @@ defmodule OrbitalDispatch.Dispatch.LaunchesTest do
     assert completed_job.state == "completed"
     assert completed_job.attempt == 2
   end
+
+  test "bounded retries surface exhausted launch work honestly" do
+    assert {:ok, job} =
+             OrbitalDispatch.dispatch_cargo_launch(%{
+               drone_id: "CN-12",
+               cargo_id: "O2-19",
+               corridor: "eclipse-side departure lane",
+               launch_window_opens_at: ~U[2041-04-03 18:40:00Z],
+               guidance_noise_clears_on_attempt: 99
+             })
+
+    job_id = job.id
+    future = DateTime.add(DateTime.utc_now(), 600, :second)
+
+    assert %{failure: 1, success: 0} = OrbitalDispatch.Oban.drain_queue(queue: :launches)
+
+    assert %{failure: 1, success: 0} =
+             OrbitalDispatch.Oban.drain_queue(queue: :launches, with_scheduled: future)
+
+    assert %{discard: 1, success: 0} =
+             OrbitalDispatch.Oban.drain_queue(queue: :launches, with_scheduled: future)
+
+    discarded_job = Repo.get!(Job, job.id)
+
+    assert discarded_job.state == "discarded"
+    assert discarded_job.attempt == 3
+    assert length(discarded_job.errors) == 3
+
+    assert [%{job_id: ^job_id, state: "discarded", drone_id: "CN-12"}] =
+             OrbitalDispatch.launch_attempts()
+  end
 end
